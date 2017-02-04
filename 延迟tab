@@ -1,0 +1,46 @@
+function $(id){
+	return typeof id==='string'?document.getElementById(id):id;
+}
+
+
+
+window.onload=function(){
+	var timer=null;
+	//鼠标划过的索引。
+	var index=0;
+	var titles=$('tab-top').getElementsByTagName('li');
+	var divs=$('tab-bottom').getElementsByTagName('div');
+	if(titles.length!=divs.length) return;
+		
+	for(var i=0;i<titles.length;i++){
+		//给每个titles[i]也就是每一个li，绑定一个对应的数字，可以通过给li设置一个属性，（value等），这里增加id属性。这种方法叫索引。
+		  titles[i].id=i;
+		   titles[i].onmouseover=function(){ 
+		   //为什么在这里设为that,而不是之前直接用this，因为下面的定时器是window的对象，一旦用this，只能指的是window，所以提前把当前this赋给that
+		   var that=this;
+	       if(timer){
+			 clearTimeout(timer);
+			 timer=null;
+		 }
+		 timer=window.setTimeout(function(){
+			 
+			 //在鼠标滑过哪个li，就有高亮前，先再次遍历，将一开始有的classname设为空，以免划过一个其他被划过的地方还有高亮
+			for(var j=0;j<titles.length;j++){
+				titles[j].className=null;		
+				
+		//在鼠标滑过哪个li，对应哪个div的display的显示之前，需要把其他已经显示的字给设为隐藏
+			
+				divs[j].style.display='none';
+			}
+
+			//鼠标滑过哪个li，就把有高亮效果的classname给他
+			titles[that.id].className='select';
+		
+			//把this.id也就是某个Li的id,(i)放进去，也就可以对应到相应的div[i]
+			divs[that.id].style.display='block';
+		 }
+		 ,200);
+		 }
+	}
+}
+			
