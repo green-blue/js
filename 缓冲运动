@@ -1,0 +1,27 @@
+window.onload=function(){
+//移出	
+var menu=document.getElementById('menu');
+	menu.onmouseover=function(){
+		starmove(0);
+		}
+//移回	
+	menu.onmouseout=function(){
+		starmove(-200);
+	}
+	
+}
+
+ var timer=null;
+  function starmove(tangel){
+	  clearInterval(timer);
+	var menu=document.getElementById('menu');
+     timer=setInterval(function(){
+		 var speed=(tangel-menu.offsetLeft)/10;
+		 speed=speed>0?Math.ceil(speed):Math.floor(speed);
+		 if(menu.offsetLeft==tangel){
+			clearInterval(timer);   
+		   }
+	 else{ menu.style.left=menu.offsetLeft+speed+'px';
+	 }
+	 },30)
+ }
